@@ -81,6 +81,11 @@ const Home = () => {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleAddOrEdit();
+                }
+              }}
               placeholder="Enter your task..."
               className="task-input"
             />
@@ -92,23 +97,53 @@ const Home = () => {
             </button>
           </div>
 
-          {/* Task List */}
-          <ul className="task-list">
-            {tasks.map((task) => (
-              <li key={task._id} className="task-item">
+          {/* Task Cards Grid */}
+          {tasks.length === 0 ? (
+            <div className="empty-state">
+              <p>No tasks yet. Add your first task above.</p>
+            </div>
+          ) : (
+            <div className="tasks-grid">
+              {tasks.map((task) => (
                 <div
-                  className={`task-title ${task.completed ? 'completed' : ''}`}
-                  onClick={() => handleToggleComplete(task._id, task.completed)}
+                  key={task._id}
+                  className={`task-card-item ${task.completed ? 'is-completed' : ''}`}
                 >
-                  {task.title}
+                  <div className="task-card-header">
+                    <span className={`status-chip ${task.completed ? 'chip-done' : 'chip-open'}`}>
+                      {task.completed ? 'Done' : 'Open'}
+                    </span>
+                    <div className="task-actions">
+                      <button
+                        onClick={() => startEdit(task)}
+                        className="edit-btn"
+                        aria-label="Edit task"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(task._id)}
+                        className="delete-btn"
+                        aria-label="Delete task"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    className="task-card-title"
+                    onClick={() => handleToggleComplete(task._id, task.completed)}
+                    aria-pressed={task.completed}
+                    title={task.completed ? 'Mark as not done' : 'Mark as done'}
+                  >
+                    <span className={`task-title-text ${task.completed ? 'completed' : ''}`}>
+                      {task.title}
+                    </span>
+                  </button>
                 </div>
-                <div className="task-actions">
-                  <button onClick={() => startEdit(task)} className="edit-btn">Edit</button>
-                  <button onClick={() => handleDelete(task._id)} className="delete-btn">Delete</button>
-                </div>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </div>
+          )}
         </div>
       </main>
 

@@ -41,6 +41,11 @@ body, html {
   padding: 32px;
 }
 
+.task-card:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
 .form-title {
   font-size: 28px;
   font-weight: bold;
@@ -79,31 +84,68 @@ body, html {
   background-color: #1e40af;
 }
 
-.task-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.task-list { display: none; }
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  color: #6b7280;
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 20px;
 }
 
-.task-item {
-  background-color: #f3f4f6;
-  padding: 12px 16px;
-  border-radius: 6px;
-  margin-bottom: 12px;
+/* Cards grid */
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .tasks-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .tasks-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.task-card-item {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.task-card-item.is-completed {
+  background-color: #f1f5f9;
+  opacity: 0.95;
+}
+
+.task-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
-.task-title {
-  font-size: 18px;
-  cursor: pointer;
+.status-chip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 9999px;
 }
 
-.task-title.completed {
-  text-decoration: line-through;
-  color: #9ca3af;
-}
+.chip-open { background-color: #e0f2fe; color: #0369a1; }
+.chip-done { background-color: #dcfce7; color: #166534; }
 
 .task-actions {
   display: flex;
@@ -119,12 +161,26 @@ body, html {
   text-decoration: underline;
 }
 
-.edit-btn {
-  color: #2563eb;
+.edit-btn { color: #2563eb; }
+.delete-btn { color: #dc2626; }
+
+.task-card-title {
+  width: 100%;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
 }
 
-.delete-btn {
-  color: #dc2626;
+.task-title-text {
+  font-size: 18px;
+  color: #111827;
+}
+
+.task-title-text.completed {
+  text-decoration: line-through;
+  color: #9ca3af;
 }
 
 .footer {
